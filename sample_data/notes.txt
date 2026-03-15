@@ -1,0 +1,290 @@
+LANGCHAIN STUDY NOTES - RAG IMPLEMENTATION
+==========================================
+
+Date: January 15, 2025
+Topic: Retrieval-Augmented Generation with LangChain 1.0+
+
+
+CORE CONCEPTS
+-------------
+
+1. Document Object Structure
+   - page_content: The actual text content
+   - metadata: Dictionary with additional information (source, page, date, etc.)
+   - id: Unique identifier (optional)
+
+2. LCEL (LangChain Expression Language)
+   - Uses pipe operator | to chain components
+   - More readable than nested function calls
+   - Better error handling and debugging
+   - Example: retriever | format_docs | prompt | llm | parser
+
+3. Vector Similarity Search
+   - Converts text to high-dimensional vectors (embeddings)
+   - Uses distance metrics: cosine similarity, Euclidean distance, dot product
+   - Finds semantically similar documents, not just keyword matches
+   - Typical embedding dimensions: 384 (small), 768 (medium), 1536 (large)
+
+
+TEXT SPLITTING STRATEGIES
+--------------------------
+
+RecursiveCharacterTextSplitter (RECOMMENDED)
+- Tries to split on semantic boundaries
+- Order: double newline → newline → period → space → character
+- Best for general text and documentation
+- Configuration: chunk_size=1000, chunk_overlap=200
+
+CharacterTextSplitter
+- Simple splitting on a single separator
+- Use for basic cases or when speed is critical
+- Less sophisticated than recursive splitter
+
+HTMLHeaderTextSplitter
+- Splits HTML based on header tags (h1, h2, h3)
+- Preserves document structure in metadata
+- Ideal for web content and documentation
+
+TokenTextSplitter
+- Splits based on token count, not characters
+- More accurate for LLM context window limits
+- Uses tiktoken for OpenAI models
+
+
+CHUNK SIZE GUIDELINES
+----------------------
+
+Content Type          | Chunk Size | Overlap | Notes
+----------------------|------------|---------|---------------------------
+General Text          | 1000 chars | 200     | Default recommendation
+Technical Docs        | 500-800    | 100-150 | Precision over context
+Source Code           | 200-400    | 50-100  | Function/class level
+Long Articles         | 1500-2000  | 300     | More context needed
+Conversational Data   | 100-200    | 20      | Short exchanges
+
+
+EMBEDDING MODELS COMPARISON
+----------------------------
+
+OpenAI text-embedding-3-small
+- Dimensions: 1536
+- Cost: $0.00002 per 1K tokens
+- MTEB Score: 62.3%
+- Best for: Production applications with budget
+
+OpenAI text-embedding-3-large
+- Dimensions: 3072
+- Cost: $0.00013 per 1K tokens
+- MTEB Score: 64.6%
+- Best for: Highest quality requirements
+
+HuggingFace all-MiniLM-L6-v2
+- Dimensions: 384
+- Cost: FREE (runs locally)
+- MTEB Score: ~56%
+- Best for: Learning, development, privacy-critical apps
+
+HuggingFace all-mpnet-base-v2
+- Dimensions: 768
+- Cost: FREE (runs locally)
+- MTEB Score: 57.8%
+- Best for: Best quality among free options
+
+Google Gemini embedding-001
+- Dimensions: 768
+- Cost: Free tier available
+- Best for: Google Cloud ecosystem
+
+
+VECTOR STORE SELECTION
+-----------------------
+
+InMemoryVectorStore
+Pros: Simple setup, no dependencies, fast for small datasets
+Cons: No persistence, limited to memory size
+Use for: Testing, development, small demos
+
+FAISS (Facebook AI Similarity Search)
+Pros: Very fast, scales to billions, runs locally, persistent
+Cons: Limited metadata filtering, manual index management
+Use for: Production apps, large datasets, when speed matters
+
+Chroma
+Pros: Easy to use, excellent metadata filtering, auto-persistence
+Cons: Slower than FAISS at scale, memory limitations
+Use for: Development, medium datasets, when metadata filtering is important
+
+Qdrant
+Pros: Production-ready, excellent filtering, hybrid search, scalable
+Cons: More complex setup, requires server for production
+Use for: Enterprise applications, complex filtering needs
+
+Pinecone
+Pros: Fully managed, highly scalable, great performance
+Cons: Costs money, vendor lock-in, requires internet
+Use for: Production apps where managed service is preferred
+
+
+RETRIEVAL STRATEGIES
+---------------------
+
+Similarity Search
+- Default method: returns top-k most similar documents
+- Fast and straightforward
+- May return redundant/similar results
+- Parameters: k (number of results), score_threshold (minimum similarity)
+
+Maximum Marginal Relevance (MMR)
+- Balances relevance and diversity
+- Reduces redundancy in results
+- Parameters:
+  * k: final number of results
+  * fetch_k: initial pool size (e.g., 20)
+  * lambda_mult: 0=diverse, 1=relevant, 0.5=balanced
+
+Custom Retrievers
+- Use @chain decorator to create custom retrieval logic
+- Can combine multiple strategies
+- Useful for:
+  * Hybrid search (vector + keyword)
+  * Re-ranking
+  * Metadata-based filtering
+  * Business logic integration
+
+
+COMMON MISTAKES TO AVOID
+-------------------------
+
+1. Hardcoding API keys → Use environment variables
+2. Not persisting vector stores → Save and reuse to avoid re-embedding
+3. Ignoring metadata → Maintain source information for citation
+4. Random chunk sizes → Choose based on content type and testing
+5. Not monitoring costs → Track API usage before production
+6. Using deprecated syntax → Use .invoke() not .run() or .get_relevant_documents()
+7. Loading huge files at once → Use lazy loading for large documents
+8. No error handling → Wrap operations in try-except blocks
+9. Not testing retrieval quality → Create evaluation dataset
+10. Forgetting overlap → Use 10-20% overlap to preserve context
+
+
+PRODUCTION CHECKLIST
+---------------------
+
+Before Deployment:
+□ Environment variables configured (.env file)
+□ API keys secured (not in code)
+□ Vector store persistent (saved to disk)
+□ Error handling implemented
+□ Costs estimated and monitored
+□ Retrieval quality tested
+□ Rate limiting configured
+□ Logging implemented
+□ Backup strategy for vector stores
+□ Documentation written
+□ Test suite created
+□ Performance benchmarks established
+
+
+CODE SNIPPETS
+--------------
+
+Basic RAG Chain (LCEL):
+```python
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.output_parsers import StrOutputParser
+
+def format_docs(docs):
+    return "\n\n".join(doc.page_content for doc in docs)
+
+chain = (
+    {"context": retriever | format_docs, "question": RunnablePassthrough()}
+    | prompt
+    | llm
+    | StrOutputParser()
+)
+
+answer = chain.invoke("What is RAG?")
+```
+
+Loading Multiple File Types:
+```python
+from pathlib import Path
+from langchain_community.document_loaders import (
+    PyPDFLoader, CSVLoader, JSONLoader, TextLoader
+)
+
+all_docs = []
+
+# PDFs
+for pdf in Path("docs").glob("*.pdf"):
+    all_docs.extend(PyPDFLoader(str(pdf)).load())
+
+# CSVs
+for csv in Path("data").glob("*.csv"):
+    all_docs.extend(CSVLoader(str(csv)).load())
+
+# Text files
+for txt in Path("notes").glob("*.txt"):
+    all_docs.extend(TextLoader(str(txt)).load())
+```
+
+Similarity Search with Scores:
+```python
+results = vectorstore.similarity_search_with_score(
+    query="What is machine learning?",
+    k=4
+)
+
+for doc, score in results:
+    print(f"Score: {score:.4f} | {doc.page_content[:100]}...")
+```
+
+
+RESOURCES
+---------
+
+Official Documentation:
+- LangChain Docs: https://python.langchain.com/docs/
+- OpenAI API: https://platform.openai.com/docs
+- FAISS: https://github.com/facebookresearch/faiss
+
+Tutorials and Guides:
+- LangChain LCEL Guide: https://python.langchain.com/docs/expression_language/
+- RAG Best Practices: Search for "RAG best practices" in current docs
+- Embedding Models: https://huggingface.co/spaces/mteb/leaderboard
+
+Community:
+- LangChain Discord
+- r/LangChain on Reddit
+- Stack Overflow (tag: langchain)
+
+
+NEXT STEPS
+----------
+
+1. Practice with different document types (PDF, CSV, JSON, HTML)
+2. Experiment with chunk sizes for your specific use case
+3. Compare embedding models (OpenAI vs HuggingFace)
+4. Try different vector stores (FAISS, Chroma, Qdrant)
+5. Implement evaluation metrics
+6. Build a complete application with proper error handling
+7. Optimize for production (caching, rate limiting, monitoring)
+8. Explore advanced techniques (re-ranking, query transformation, hybrid search)
+
+
+KEY TAKEAWAYS
+-------------
+
+✓ RAG = Retrieval + Context + Generation
+✓ Good chunking strategy is critical for quality
+✓ LCEL makes chain building more readable
+✓ Always persist vector stores to save costs
+✓ Test retrieval quality before optimizing generation
+✓ Monitor costs throughout development
+✓ Start simple, iterate based on metrics
+✓ Metadata is your friend for filtering and citation
+✓ No single "best" configuration - test for your use case
+✓ Production requires error handling, monitoring, and optimization
+
+
+End of Notes

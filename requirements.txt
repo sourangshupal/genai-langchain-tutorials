@@ -1,0 +1,134 @@
+# LangChain Teaching Notebooks - Requirements
+# Updated: November 2025
+# Python 3.11+ recommended
+# Compatible with LangChain 1.0.5+
+
+# ============================================================================
+# CORE LANGCHAIN PACKAGES
+# ============================================================================
+langchain
+langchain-core
+langchain-community
+langchain-text-splitters
+
+# ============================================================================
+# LLM & EMBEDDING PROVIDERS
+# ============================================================================
+# OpenAI (required)
+langchain-openai
+openai
+
+# Google Gemini (optional - for Notebook 04)
+langchain-google-genai
+google-generativeai
+
+# HuggingFace (optional - for local embeddings)
+langchain-huggingface
+sentence-transformers
+
+# Ollama (optional - for local LLMs)
+#langchain-ollama==0.2.3
+
+# ============================================================================
+# VECTOR STORES
+# ============================================================================
+# FAISS (required for Notebook 05)
+faiss-cpu
+
+# Chroma (required for Notebook 05)
+langchain-chroma
+chromadb
+
+# Qdrant (optional - for advanced users)
+# langchain-qdrant==0.2.3
+# qdrant-client==1.13.2
+
+# Pinecone (optional - cloud vector store)
+# langchain-pinecone==0.3.5
+# pinecone-client==5.0.2
+
+# ============================================================================
+# DOCUMENT LOADERS
+# ============================================================================
+# PDF Processing (required)
+pypdf
+
+# Web scraping (required for Notebook 02)
+beautifulsoup4
+lxml
+
+# Markdown (optional)
+# unstructured==0.18.0
+
+# ============================================================================
+# UTILITIES
+# ============================================================================
+# Environment Management (required)
+python-dotenv
+
+# Token counting (required for cost estimation)
+tiktoken
+
+# Jupyter Notebooks (required)
+jupyter
+notebook
+ipykernel
+
+# Numpy (required for similarity calculations)
+numpy
+
+# Matplotlib (required for visualizations)
+matplotlib
+
+# ============================================================================
+# RAG EVALUATION (required for Notebook 10)
+# ============================================================================
+# Ragas Framework (RAG evaluation)
+ragas==0.3.9
+
+# HuggingFace Datasets (required by Ragas)
+datasets>=2.14.0
+
+# Seaborn (enhanced visualizations)
+seaborn>=0.12.0
+
+# Pandas (data analysis)
+pandas
+
+# OPIK (optional - experiment tracking and observability)
+opik
+
+# ============================================================================
+# DEVELOPMENT & TESTING (optional)
+# ============================================================================
+# pytest==8.3.5
+# pytest-asyncio==0.25.2
+# black==25.1.0
+# flake8==7.2.0
+
+# ============================================================================
+# INSTALLATION INSTRUCTIONS
+# ============================================================================
+#
+# Basic Installation (required packages only):
+#   pip install -r requirements.txt
+#
+# Full Installation (all optional packages):
+#   pip install -r requirements.txt
+#   pip install langchain-huggingface sentence-transformers
+#   pip install langchain-qdrant qdrant-client
+#   pip install unstructured
+#
+# For specific notebooks:
+#   Notebooks 01-03: Core packages only
+#   Notebook 04: Add langchain-google-genai
+#   Notebook 05: Add langchain-chroma chromadb
+#   Notebooks 06-07: All required packages
+#   Notebook 10: Add ragas, datasets, seaborn, opik (RAG Evaluation with experiment tracking)
+#
+# Notes:
+#   - Use Python 3.9, 3.10, or 3.11 (3.14+ may have compatibility issues)
+#   - For GPU support with FAISS, use: pip install faiss-gpu
+#   - Some packages may require additional system dependencies
+#
+# ============================================================================

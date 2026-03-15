@@ -1,0 +1,16 @@
+product_id,product_name,category,description,price,stock
+1,Laptop Pro 15,Electronics,"High-performance laptop with 15-inch display, Intel i7 processor, 16GB RAM, and 512GB SSD. Perfect for professional work and gaming.",1299.99,45
+2,Wireless Mouse,Accessories,"Ergonomic wireless mouse with 6 programmable buttons, 2400 DPI optical sensor, and long battery life. Compatible with Windows and Mac.",29.99,150
+3,USB-C Hub,Accessories,"7-in-1 USB-C hub with HDMI, USB 3.0 ports, SD card reader, and USB-C power delivery. Ideal for laptops and tablets.",49.99,80
+4,Mechanical Keyboard,Accessories,"RGB mechanical keyboard with Cherry MX switches, customizable backlighting, and programmable macro keys. Great for typing and gaming.",129.99,60
+5,27-inch Monitor,Electronics,"4K UHD monitor with 27-inch IPS panel, HDR support, and 99% sRGB color accuracy. Perfect for content creation and entertainment.",399.99,30
+6,Webcam HD Pro,Electronics,"1080p HD webcam with auto-focus, built-in microphone, and low-light correction. Ideal for video conferencing and streaming.",79.99,100
+7,Laptop Stand,Accessories,"Adjustable aluminum laptop stand with ergonomic design, cooling ventilation, and non-slip rubber pads. Supports laptops up to 17 inches.",39.99,120
+8,External SSD 1TB,Electronics,"Portable external SSD with 1TB storage, USB 3.1 Gen 2 interface, and transfer speeds up to 540MB/s. Compact and durable design.",149.99,75
+9,Noise-Cancelling Headphones,Electronics,"Over-ear headphones with active noise cancellation, 30-hour battery life, and premium sound quality. Foldable design with travel case.",249.99,40
+10,Graphics Tablet,Electronics,"Digital drawing tablet with 8192 pressure levels, battery-free pen, and customizable express keys. Compatible with major design software.",199.99,35
+11,Desk Lamp LED,Accessories,"LED desk lamp with adjustable brightness, color temperature control, and USB charging port. Energy-efficient and eye-friendly.",44.99,90
+12,Cable Organizer Set,Accessories,"Cable management set including cable clips, sleeves, and ties. Keeps your workspace organized and tidy.",19.99,200
+13,Portable Charger 20000mAh,Electronics,"High-capacity portable charger with dual USB ports, fast charging support, and LED power indicator. Charges smartphones up to 4 times.",59.99,110
+14,Bluetooth Speaker,Electronics,"Portable Bluetooth speaker with 360-degree sound, waterproof design, and 12-hour battery life. Perfect for outdoor activities.",89.99,65
+15,Laptop Backpack,Accessories,"Anti-theft laptop backpack with padded compartment for 15.6-inch laptops, USB charging port, and multiple organizational pockets.",69.99,55

@@ -1,0 +1,82 @@
+{
+  "api_version": "v2.0",
+  "timestamp": "2025-01-15T10:30:00Z",
+  "total_results": 5,
+  "articles": [
+    {
+      "id": "article_001",
+      "title": "Introduction to Retrieval-Augmented Generation (RAG)",
+      "author": "Dr. Sarah Chen",
+      "published_date": "2025-01-10",
+      "category": "Machine Learning",
+      "tags": ["RAG", "LLM", "NLP", "AI"],
+      "summary": "Retrieval-Augmented Generation (RAG) is a powerful technique that combines information retrieval with large language models to generate more accurate and contextual responses.",
+      "content": "RAG systems work by first retrieving relevant documents from a knowledge base, then using those documents as context for a language model to generate responses. This approach significantly reduces hallucinations and provides more factual, grounded outputs. The architecture typically consists of three main components: a document store, an embedding model for semantic search, and a language model for generation.",
+      "reading_time": "5 minutes",
+      "views": 15420,
+      "likes": 892
+    },
+    {
+      "id": "article_002",
+      "title": "Understanding Vector Databases for AI Applications",
+      "author": "Michael Rodriguez",
+      "published_date": "2025-01-12",
+      "category": "Data Engineering",
+      "tags": ["Vector DB", "Embeddings", "AI Infrastructure"],
+      "summary": "Vector databases are specialized systems designed to store and efficiently query high-dimensional vector embeddings, essential for modern AI applications.",
+      "content": "Vector databases like FAISS, Pinecone, and Chroma provide optimized storage and retrieval for embedding vectors. Unlike traditional databases that use exact matching, vector databases perform similarity searches using metrics like cosine similarity or Euclidean distance. This enables semantic search capabilities where queries can find conceptually similar items even if they don't share exact keywords. Key features include approximate nearest neighbor (ANN) algorithms, horizontal scalability, and metadata filtering.",
+      "reading_time": "7 minutes",
+      "views": 12350,
+      "likes": 743
+    },
+    {
+      "id": "article_003",
+      "title": "LangChain Framework: Building Production-Ready LLM Applications",
+      "author": "Emily Watson",
+      "published_date": "2025-01-14",
+      "category": "Software Development",
+      "tags": ["LangChain", "LLM", "Framework", "Python"],
+      "summary": "LangChain is a comprehensive framework that simplifies the development of applications powered by large language models through modular components and chains.",
+      "content": "LangChain provides a unified interface for working with different LLMs, vector stores, and retrieval systems. The framework's core abstraction is the chain, which allows developers to compose complex workflows by connecting different components. With LangChain 1.0+, the introduction of LCEL (LangChain Expression Language) makes it even easier to build robust pipelines using a declarative syntax. The framework includes built-in support for document loaders, text splitters, embeddings, vector stores, and memory management.",
+      "reading_time": "8 minutes",
+      "views": 18750,
+      "likes": 1024
+    },
+    {
+      "id": "article_004",
+      "title": "Text Chunking Strategies for Optimal RAG Performance",
+      "author": "Dr. James Liu",
+      "published_date": "2025-01-13",
+      "category": "Machine Learning",
+      "tags": ["RAG", "Text Processing", "Optimization"],
+      "summary": "Effective text chunking is crucial for RAG systems. This article explores different chunking strategies and their impact on retrieval quality.",
+      "content": "The choice of chunk size and overlap significantly impacts RAG performance. Smaller chunks (300-500 characters) provide precise retrieval but may lack context, while larger chunks (1500-2000 characters) offer more context but can introduce noise. A common best practice is to use chunk sizes of 1000 characters with 200-character overlap, which balances precision and context. Advanced techniques include recursive splitting that respects document structure, semantic chunking based on topic boundaries, and hybrid approaches that combine multiple strategies.",
+      "reading_time": "6 minutes",
+      "views": 9870,
+      "likes": 567
+    },
+    {
+      "id": "article_005",
+      "title": "Embedding Models Comparison: OpenAI vs Open Source",
+      "author": "Alexandra Kim",
+      "published_date": "2025-01-15",
+      "category": "AI Research",
+      "tags": ["Embeddings", "NLP", "Benchmarks"],
+      "summary": "A comprehensive comparison of embedding models including OpenAI's text-embedding-3 series and open-source alternatives like sentence-transformers.",
+      "content": "OpenAI's text-embedding-3-small (1536 dimensions) and text-embedding-3-large (3072 dimensions) currently lead in quality metrics, achieving 62.3% and 64.6% on MTEB benchmarks respectively. However, open-source models like all-mpnet-base-v2 (768 dimensions) offer competitive performance at 57.8% MTEB while running entirely locally with no API costs. For production systems, the choice depends on several factors: budget constraints, latency requirements, privacy concerns, and quality needs. Many applications find that open-source models provide sufficient quality at a fraction of the cost.",
+      "reading_time": "10 minutes",
+      "views": 21450,
+      "likes": 1337
+    }
+  ],
+  "metadata": {
+    "source": "TechBlog API",
+    "query_params": {
+      "category": "AI/ML",
+      "date_range": "2025-01-10 to 2025-01-15",
+      "sort_by": "date",
+      "limit": 5
+    },
+    "response_time_ms": 142
+  }
+}

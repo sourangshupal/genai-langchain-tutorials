@@ -132,3 +132,29 @@ opik
 #   - Some packages may require additional system dependencies
 #
 # ============================================================================
+# Document processing
+pymupdf
+pypdf
+
+# Utilities
+python-dotenv
+numpy
+jupyter
+
+# Retrieval methods
+rank-bm25
+
+# Reranking and semantic search
+sentence-transformers
+
+# Evaluation framework
+deepeval
+
+# Data validation
+pydantic
+
+# Optional: For better async support
+aiohttp
+
+# Optional: For progress bars
+tqdm
